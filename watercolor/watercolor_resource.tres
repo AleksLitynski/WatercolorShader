@@ -1,0 +1,47 @@
+[gd_resource type="ShaderMaterial" load_steps=12 format=2]
+
+[ext_resource path="res://watercolor/watercolor_main_pass.shader" type="Shader" id=1]
+[ext_resource path="res://watercolor/watercolor_base_pass.shader" type="Shader" id=2]
+[ext_resource path="res://watercolor/DA_Pastel_Honeycomb midgrain.png" type="Texture" id=3]
+[ext_resource path="res://watercolor/DA_Pastel_Honeycomb midgrain.normal.png" type="Texture" id=4]
+
+[sub_resource type="OpenSimplexNoise" id=1]
+period = 32.0
+persistence = 1.0
+lacunarity = 1.5
+
+[sub_resource type="NoiseTexture" id=2]
+seamless = true
+noise = SubResource( 1 )
+
+[sub_resource type="OpenSimplexNoise" id=3]
+octaves = 9
+period = 10.0
+
+[sub_resource type="NoiseTexture" id=4]
+seamless = true
+noise = SubResource( 3 )
+
+[sub_resource type="Gradient" id=5]
+offsets = PoolRealArray( 0.0698795, 0.727711, 0.749398, 0.99759, 1 )
+colors = PoolColorArray( 0.21875, 0.21875, 0.21875, 1, 0, 0, 0, 1, 0.380531, 0.380531, 0.380531, 1, 0.726004, 0.726004, 0.726004, 1, 1, 1, 1, 1 )
+
+[sub_resource type="GradientTexture" id=6]
+gradient = SubResource( 5 )
+
+[sub_resource type="ShaderMaterial" id=7]
+render_priority = -1
+shader = ExtResource( 1 )
+shader_param/outline_width = 3.0
+shader_param/outline_draw_depth = 25.0
+shader_param/mesh_size = Vector3( 1.8, 1.8, 1.8 )
+shader_param/paper = ExtResource( 3 )
+shader_param/paper_normal = ExtResource( 4 )
+shader_param/paint_blur = SubResource( 4 )
+shader_param/ink_blots = SubResource( 2 )
+shader_param/watercolor_ramp = SubResource( 6 )
+
+[resource]
+next_pass = SubResource( 7 )
+shader = ExtResource( 2 )
+shader_param/use_albedo_texture = false
